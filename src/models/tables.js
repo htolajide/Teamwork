@@ -61,43 +61,24 @@ const tables = {
         debug('app:*')(err);
       });
   },
-  createArtCommentTable: () => {
-    const artcomment = `CREATE TABLE IF NOT EXISTS
-      artcomment(
+  createCommentTable: () => {
+    const comment = `CREATE TABLE IF NOT EXISTS
+      comment(
         id SERIAL PRIMARY KEY,
         article_id INT NOT NULL,
         employee_id INT NOT NULL,
         comment VARCHAR NOT NULL,
         comment_date TIMESTAMP DEFAULT NOW()
       )`;
-    pool.query(artcomment)
+    pool.query(comment)
       .then((res) => {
-        debug('app:*')(`table artcomment is available ${res}`);
+        debug('app:*')(`table comment is available ${res}`);
       })
       .catch((err) => {
         debug('app:*')(err);
       });
   },
-
-  createGifCommentTable: () => {
-    const gifcomment = `CREATE TABLE IF NOT EXISTS
-      gifcomment(
-        id SERIAL PRIMARY KEY,
-        gif_id INT NOT NULL,
-        employee_id INT NOT NULL,
-        comment VARCHAR NOT NULL,
-        comment_date TIMESTAMP DEFAULT NOW()
-      )`;
-    pool.query(gifcomment)
-      .then((res) => {
-        debug('app:*')(`table gifcomment is available ${res}`);
-      })
-      .catch((err) => {
-        debug('app:*')(err);
-      });
-    },
-
-  disconnect: () => {
+   disconnect: () => {
     // disconnect client
     pool.on('remove', () => {
       debug('app:database')('Tables created successfully, conection removed');

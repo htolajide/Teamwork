@@ -14,6 +14,14 @@ dotenv.config();
 
 const app = express();
 
+// to resolve cross origin resource shearing (CORS) error add folowing to te response header 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    next();
+  });
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -22,14 +30,13 @@ app.use(jsend.middleware);
 table.createEmployeeTable();
 table.createGifTable();
 table.createArticlesTable();
-table.createArtCommentTable();
-table.createGifCommentTable();
+table.createCommentTable();
 
 table.disconnect();
 
 app.use('/api/v1', v1Router);
 
-app.get('*', (req, res) => res.jsend.success('Invana!!!'));
+app.get('*', (req, res) => res.jsend.success('Teamwork!!!'));
 
 const port = parseInt(process.env.PORT, 10) || 4000;
 

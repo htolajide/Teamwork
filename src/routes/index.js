@@ -3,24 +3,49 @@ import express from 'express';
 import validator from '../middlewares/validator';
 import authenticator from '../middlewares/authenticator';
 import users from '../controllers/users';
-//import inventory from '../controllers/inventory';
+import gif from '../controllers/gifs';
+import article from '../controllers/articles';
 
 const router = express.Router();
 
-// auth
-router.post('/signup', validator.auth, users.signup);
-router.post('/login', validator.auth, users.login);
+// user auth
+router.post('/auth/create-user',  users.signup);
+router.post('auth/signin', users.login);
 
-// inventory
-// Create inventory
-//router.post('/inventory', authenticator, validator.inventory, inventory.create);
+// Create gifs
+router.post('/gifs', gif.create);
 
-// Get all inventory
-//router.get('/inventory', authenticator, inventory.findAll);
+// Delete a gif
+router.delete('/gifs/:gifID', gif.delete);
 
-// Get an inventory
-//router.get(
-//  '/inventory/:inventoryId', authenticator, validator.checkInventoryParams, inventory.findOne,
-//);
+// Delete a gif comment
+router.delete('/gifs/:gifID', gif.deleteComment);
+
+// Create article
+router.post('/articles', article.create);
+
+// Edit an article
+router.patch('/articles/:articleID', article.edit);
+
+// Delete an article
+router.delete('/articles/:articleID', article.delete);
+
+// Delete an article comment
+router.delete('/articles/:articleID', article.deleteComment);
+
+// Comment on an article
+router.post('/articles/<:articleId>/comment', article.createComment);
+
+// Comment on a gif
+router.post('/gifs/<:gifId>/comment', gif.createComment);
+
+// View all article or gif with recent first
+router.get('/feed', article.findAllArticleOrGif);
+
+// View  a specific article
+router.get( '/article/:articleId', article.getOne,);
+
+// View  a specific gif
+router.get( '/gifs/:gifId', gif.getOne,);
 
 export default router;
