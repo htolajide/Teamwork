@@ -7,12 +7,12 @@ export default {
   auth: (req, res, next) => {
     const errors = [];
     const {
-      firstname, lastname, email, password,
+      firstName, lastName, email, password,
     } = req.body;
 
-    if (req.path.includes('signup')) {
-      errors.push(...checkForEmptyFields('First name', firstname));
-      errors.push(...checkForEmptyFields('Last name', lastname));
+    if (req.path.includes('create-user')) {
+      errors.push(...checkForEmptyFields('First name', firstName));
+      errors.push(...checkForEmptyFields('Last name', lastName));
     }
     errors.push(...checkPatternedFields('Email address', email, emailRegex));
     errors.push(...checkPatternedFields('Password', password, passwordRegex));
@@ -25,13 +25,13 @@ export default {
     }
     return next();
   },
-  inventory: (req, res, next) => {
+  article: (req, res, next) => {
     const errors = [];
-    const { category, name, description } = req.body;
+    const { title, article } = req.body;
 
-    errors.push(...checkForEmptyFields('Category', category));
-    errors.push(...checkForEmptyFields('Name', name));
-    errors.push(...checkPatternedFields('Description', description, descriptionRegex));
+    errors.push(...checkForEmptyFields('Title', title));
+    errors.push(...checkForEmptyFields('Article', article));
+    errors.push(...checkPatternedFields('Article', article, articleRegex));
 
     if (errors.length) {
       return res.jsend.error({
@@ -41,13 +41,13 @@ export default {
     }
     return next();
   },
-  checkInventoryParams: (req, res, next) => {
-    const { params: { inventoryId } } = req;
-    const parsedNumber = parseInt(inventoryId, 10);
+  checkIDParams: (req, res, next) => {
+    const { params: { IDParameter } } = req;
+    const parsedNumber = parseInt(IDPrameter, 10);
     const isInter = Number.isInteger(parsedNumber);
     const isGreaterThanZero = parsedNumber > 0;
 
     if (isInter && isGreaterThanZero) return next();
-    return res.jsend.error('Inventory ID must be an integer greater than zero');
+    return res.jsend.error('ID must be an integer greater than zero');
   },
 };

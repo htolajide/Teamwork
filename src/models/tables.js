@@ -32,7 +32,7 @@ const tables = {
       gif(
         id SERIAL PRIMARY KEY,
         employee_id INT NOT NULL,
-        image VARCHAR NOT NULL,
+        imageUrl VARCHAR NOT NULL,
         title VARCHAR NOT NULL,
         gifDate TIMESTAMP DEFAULT NOW()
       )`;

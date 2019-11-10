@@ -68,7 +68,7 @@ describe("Teamwork Application Unit Tests", () => {
             chai.request(app)
                 .post('/api/v1/auth/signin')
                 .send({
-                    email: 'htolajide@yahoo.com',
+                    email: 'htolajideyahoo.com',
                     password: 'olajide4me'
                 })
                 .end(function(err, res) {
