@@ -4,7 +4,7 @@
   "description": "A DevC Capstone Project",
   "main": "app.js",
   "scripts": {
-    "build": "babel src --out-dir dist --copy-files",
+    "build": "npm run clean && ./node_modules/.bin/babel  src --out-dir dist --copy-files",
     "clean": "rm -rf dist && mkdir dist",
     "heroku-postbuild": "npm run clean && npm run build",
     "start": "node dist/app.js",
