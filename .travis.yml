@@ -16,7 +16,7 @@ env:
 
 before_script:
   - psql -c 'create database teamwork;' -U postgres
-  - psql -c "CREATE USER htolajide WITH PASSWORD null;" -U postgres
+  - psql -c "CREATE USER postgres WITH PASSWORD olajide4me;" -U postgres
   - npm run build
 script:
   - npm test
