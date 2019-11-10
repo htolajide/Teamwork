@@ -121,15 +121,15 @@ describe("Teamwork Application Unit Tests", () => {
 
         it('Create new gif', function(done) {
             chai.request(app)
-                .post('/gifs')
+                .post('/api/v1/gifs')
                 .send({
-                    url: 'run',
-                    password: false
+                    title: 'Test Post',
+                    url: 'gifs/jona.jpg'
                 })
                 .end(function(err, res) {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    done(err);
+                    done();
                 });
         });
     });
