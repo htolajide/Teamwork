@@ -7,21 +7,23 @@ export default {
   signup: async (req, res) => {
     // check for existence
     const {
-      email, firstName, lastName, password,
+      firstName, lastName, email,  password, gender, jobRole, isAdmin, department, regDate
     } = req.body;
     try {
       pool.query('SELECT email FROM employee WHERE email = $1', [email], async (error, results) => {
         // user does not exist
         if (results.rows[0] === undefined) {
-          pool.query('INSERT INTO users (email, firstName, lastName, password) VALUES ($1, $2, $3, $4) RETURNING id, is_admin', [email, firstName, lastName, await bcrypt.hash(password, 10)], (err, result) => {
+          pool.query('INSERT INTO employee (firstName, lastName, email, password, gender, jobRole, isAdmin, department)'+
+           ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, isAdmin', [ firstName, lastName, email,  await bcrypt.hash(password, 10), gender, jobRole, isAdmin, department],  (err, result) => {
             // signin jwt and wrap in a cookie
             const token = jwt.sign({ userId: result.rows[0].id }, process.env.SECRET);
             res.cookie('userid', result.rows[0].id, { expires: new Date(Date.now() + 3600000), httpOnly: true });
             res.cookie('token', token, { expires: new Date(Date.now() + 3600000), httpOnly: true });
             return res.jsend.success({
+              message: 'User account successfully created',
               user_id: result.rows[0].id,
-              is_admin: result.rows[0].is_admin,
               Token: token,
+              is_admin: result.rows[0].isadmin,
             });
           });
         }
@@ -37,7 +39,7 @@ export default {
   // user login logic
   login: async (req, res) => {
     const { email, password } = req.body;
-    pool.query('SELECT id, email, password FROM users WHERE email = $1 ', [email], async (error, results) => {
+    pool.query('SELECT id, email, password FROM employee WHERE email = $1 ', [email], async (error, results) => {
       if (error) {
         throw error;
       }
@@ -51,7 +53,7 @@ export default {
       res.cookie('userid', results.rows[0].id, { expires: new Date(Date.now() + 3600000), httpOnly: true });
       res.cookie('token', token, { expires: new Date(Date.now() + 3600000), httpOnly: true });
       return res.jsend.success({
-        user_id: results.rows[0].id, isAdmin: results.rows[0].is_admin, Token: token,
+        Token: token, user_id: results.rows[0].id
       });
     });
     // disconnect client after operation

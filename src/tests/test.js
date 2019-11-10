@@ -1,9 +1,10 @@
 // Import the dependencies for testing
 import chai from 'chai';
-import chaiHttp from 'chai-http';
+import chatHttp from 'chai-http';
+import 'chai/register-should';
 import app from '../app';
 // Configure chai
-chai.use(chaiHttp);
+chai.use(chatHttp);
 chai.should();
 describe("Teamwork Application Unit Tests", () => {
     describe("Test for GET tasks", () => {
@@ -43,13 +44,20 @@ describe("Teamwork Application Unit Tests", () => {
     });
 
     describe('Test for POST tasks', function() {
-        it('Create a new employee', function(done) {
-            chai.request(app)
-                .post('/auth/create-user')
-                .send({
-                    title: 'run',
-                    done: false
-                })
+        it('Create a new user', function(done) {
+                const user = {
+                    email: 'jelel@yahoo.com', 
+                    firstName: 'jelel', 
+                    lastName: 'Hammed', 
+                    password: 'olajide4me', 
+                    gender: 'Male', 
+                    jobRole: 'Administrator', 
+                    department: 'Admin', 
+                };
+                chai.request(app)
+                .post('/api/v1/auth/create-user')
+                .set('Accept', 'application/json')
+                .send(user)
                 .end(function(err, res) {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
@@ -58,10 +66,10 @@ describe("Teamwork Application Unit Tests", () => {
         });
         it('Login a user', function(done) {
             chai.request(app)
-                .post('/auth/signin')
+                .post('/api/v1/auth/signin')
                 .send({
-                    email: 'run',
-                    password: false
+                    email: 'htolajide@yahoo.com',
+                    password: 'olajide4me'
                 })
                 .end(function(err, res) {
                     res.should.have.status(200);

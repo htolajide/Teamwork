@@ -41,3 +41,5 @@ app.get('*', (req, res) => res.jsend.success('Teamwork!!!'));
 const port = parseInt(process.env.PORT, 10) || 4000;
 
 app.listen(port, () => debug('app:*')(`Live at ${port}`));
+
+module.exports = app;

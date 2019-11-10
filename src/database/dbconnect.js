@@ -1,17 +1,31 @@
 // get node postgres connector
 import pg from 'pg';
 import debug from 'debug';
+import configuration from '../config/config'
 
-const config = {
-  user: 'postgres', // this is the db user credential
-  database: 'teamwork',
-  password: 'olajide4me',
-  port: 5433,
-  max: 100, // max number of clients in the pool
-  idleTimeoutMillis: 30000,
-};
-const pool = pg.Pool(config);
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
+
+//const config = configuration[env];
+
+console.log('this is the environment: ', env );
+
+if (env === 'production') {
+const pool = pg.Pool(configuration.production);
 pool.on('connect', () => {
   debug('app:database')('connected to the Database');
+  module.exports = pool;
 });
-module.exports = pool;
+} else if (env === 'test') {
+  const pool = pg.Pool(configuration.test);
+  pool.on('connect', () => {
+    debug('app:database')('connected to the Database');
+  });
+  module.exports = pool;
+} else {
+  const pool = pg.Pool(configuration.development);
+  pool.on('connect', () => {
+    debug('app:database')('connected to the Database');
+  });
+  module.exports = pool;
+}
+

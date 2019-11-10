@@ -14,9 +14,9 @@ const tables = {
           email VARCHAR NOT NULL,
           password VARCHAR NOT NULL,
           gender VARCHAR NOT NULL,
-          jobRoll VARCHAR NOT NULL,
+          jobRole VARCHAR NOT NULL,
+          isAdmin BOOLEAN DEFAULT FALSE,
           department VARCHAR NOT NULL,
-          is_admin BOOLEAN DEFAULT FALSE,
           regDate TIMESTAMP DEFAULT NOW()
         )`;
     pool.query(employee)

@@ -9,8 +9,8 @@ import article from '../controllers/articles';
 const router = express.Router();
 
 // user auth
-router.post('/auth/create-user',  users.signup);
-router.post('auth/signin', users.login);
+router.post('/auth/create-user', validator.auth,  users.signup);
+router.post('/auth/signin', validator.auth, users.login);
 
 // Create gifs
 router.post('/gifs', gif.create);
