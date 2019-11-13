@@ -11,6 +11,7 @@ before_install:
 
 install:
   - npm install --ignore-scripts
+  - npm i babel-travis
 services:
   - postgresql
 
