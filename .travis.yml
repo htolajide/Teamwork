@@ -10,8 +10,8 @@ before_install:
   - npm i -g npm@6.9.0
 
 install:
-  - npm install --ignore-scripts
-  - npm i babel-travis
+  - npm install
+  - npm i @babel/core
 services:
   - postgresql
 
