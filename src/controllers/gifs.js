@@ -2,7 +2,7 @@
 let cloudinary = require('cloudinary').v2;
 import debug from 'debug';
 import pool from '../database/dbconnect';
-
+// configure cloudinary
 cloudinary.config({
   cloud_name: 'ds5hogj9b',
   api_key: '657785678132187',
@@ -39,15 +39,15 @@ export default {
       });
     // disconnect client
     pool.on('remove', () => {
-        debug('app:*')('Client Removed @ createGif');
+        debug('app:*')('Client Removed @ postGif');
       });
     })
     .catch(function (err) {
       console.log();
       console.log("** File Upload (Promise)");
-      if (err) { debug('app:*')('Error Occured: Something wrong @createGif' + err); }
+      if (err) { debug('app:*')('Error Occured: Something wrong @createGif'); }
     });
-  }catch (error) { debug('app:*')('Error Occured: Something wrong @createGif' + error); }   
+  }catch (error) { debug('app:*')('Error Occured: Something wrong @createGif'); }   
 },
   // user login logic
   delete: async (req, res) => {

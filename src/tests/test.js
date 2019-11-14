@@ -64,11 +64,12 @@ describe("Teamwork Application Unit Tests", () => {
                     done(err);
                 });
         });
+
         it('Login a user', function(done) {
             chai.request(app)
                 .post('/api/v1/auth/signin')
                 .send({
-                    email: 'htolajideyahoo.com',
+                    email: 'jelel@yahoo.com',
                     password: 'olajide4me'
                 })
                 .end(function(err, res) {
@@ -77,12 +78,13 @@ describe("Teamwork Application Unit Tests", () => {
                     done(err);
                 });
         });
-        it('Create new article', function(done) {
+
+        it('Post new article', function(done) {
             chai.request(app)
-                .post('/articles')
+                .post('/api/v1/articles')
                 .send({
-                    title: 'run',
-                    UserId: 2
+                    title: 'Test Post article',
+                    article: 'am just testing posting articles'
                 })
                 .end(function(err, res) {
                     res.should.have.status(200);
@@ -119,7 +121,7 @@ describe("Teamwork Application Unit Tests", () => {
                 });
         });
 
-        it('Create new gif', function(done) {
+        it('Post new gif', function(done) {
             chai.request(app)
                 .post('/api/v1/gifs')
                 .send({
@@ -177,15 +179,16 @@ describe("Teamwork Application Unit Tests", () => {
 
     describe('Test for PATCH/PUT tasks', function() {
         it('Edit an article', function(done) {
+            const articleId = 5;
             chai.request(app)
-                .patch('/articless/:Id')
+                .patch(`/api/v1/articles/${articleId}`)
                 .send({
-                    title: 'run',
-                    password: false
+                    title: 'edited article',
+                    article: 'just another article edited '
                 })
                 .end(function(err, res) {
                     res.should.have.status(200);
-                    // res.body.should.be.a('object');
+                    res.body.should.be.a('object');
                     done(err);
                 });
         });

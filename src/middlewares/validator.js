@@ -1,5 +1,5 @@
 import validationHelpers from '../utilities/validationHelpers';
-import { emailRegex, passwordRegex, descriptionRegex } from '../utilities/regexen';
+import { emailRegex, passwordRegex, articleRegex } from '../utilities/regexen';
 
 const { checkForEmptyFields, checkPatternedFields } = validationHelpers;
 
@@ -41,13 +41,23 @@ export default {
     }
     return next();
   },
-  checkIDParams: (req, res, next) => {
-    const { params: { IDParameter } } = req;
-    const parsedNumber = parseInt(IDPrameter, 10);
-    const isInter = Number.isInteger(parsedNumber);
+  checkArticleIdParams: (req, res, next) => {
+    const { params: { articleId } } = req;
+    const parsedNumber = parseInt(articleId, 10);
+    const isInteger = Number.isInteger(parsedNumber);
     const isGreaterThanZero = parsedNumber > 0;
 
-    if (isInter && isGreaterThanZero) return next();
+    if (isInteger && isGreaterThanZero) return next();
+    return res.jsend.error('ID must be an integer greater than zero');
+  },
+
+  checkGifIdParams: (req, res, next) => {
+    const { params: { gifId } } = req;
+    const parsedNumber = parseInt(gifId, 10);
+    const isInteger = Number.isInteger(parsedNumber);
+    const isGreaterThanZero = parsedNumber > 0;
+
+    if (isInteger && isGreaterThanZero) return next();
     return res.jsend.error('ID must be an integer greater than zero');
   },
 };

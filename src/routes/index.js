@@ -13,39 +13,39 @@ router.post('/auth/create-user', validator.auth,  users.signup);
 router.post('/auth/signin', validator.auth, users.login);
 
 // Create gifs
-router.post('/gifs', gif.create);
+router.post('/gifs', authenticator, gif.create);
 
 // Delete a gif
-router.delete('/gifs/:gifID', gif.delete);
+router.delete('/gifs/:gifID', authenticator, validator.checkGifIdParams, gif.delete);
 
 // Delete a gif comment
-router.delete('/gifs/:gifID', gif.deleteComment);
+router.delete('/gifs/:gifID',  gif.deleteComment);
 
 // Create article
-router.post('/articles', article.create);
+router.post('/articles', authenticator, validator.article, article.create);
 
 // Edit an article
-router.patch('/articles/:articleID', article.edit);
+router.patch('/articles/:articleId', authenticator, validator.checkArticleIdParams, article.edit);
 
 // Delete an article
-router.delete('/articles/:articleID', article.delete);
+router.delete('/articles/:articleID', authenticator, validator.checkArticleIdParams, article.delete);
 
 // Delete an article comment
-router.delete('/articles/:articleID', article.deleteComment);
+router.delete('/articles/:articleID', authenticator, validator.checkArticleIdParams, article.deleteComment);
 
 // Comment on an article
-router.post('/articles/<:articleId>/comment', article.createComment);
+router.post('/articles/<:articleId>/comment', authenticator, validator.checkArticleIdParams, article.createComment);
 
 // Comment on a gif
-router.post('/gifs/<:gifId>/comment', gif.createComment);
+router.post('/gifs/<:gifId>/comment',authenticator, validator.checkGifIdParams, gif.createComment);
 
 // View all article or gif with recent first
-router.get('/feed', article.findAllArticleOrGif);
+router.get('/feed', authenticator, article.findAllArticleOrGif);
 
 // View  a specific article
-router.get( '/article/:articleId', article.getOne,);
+router.get( '/article/:articleId', authenticator, validator.checkArticleIdParams, article.getOne,);
 
 // View  a specific gif
-router.get( '/gifs/:gifId', gif.getOne,);
+router.get( '/gifs/:gifId', authenticator, validator.checkGifIdParams, gif.getOne,);
 
 export default router;
