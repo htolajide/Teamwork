@@ -9,7 +9,7 @@ export default {
     const { title, article} = req.body;
     req.header = token;
     try {
-        // create user account if user is admin
+        // employee post new article
         pool.query('INSERT INTO articles (employee_id, title, article) VALUES ($1, $2, $3) RETURNING id, title, articledate ', [userid, title, article], (err, result) => {
           if (!err) {
             return res.jsend.success({
@@ -55,8 +55,27 @@ export default {
     });
   },
 
-  // user login logic
+  // delete article logic
   delete: async (req, res) => {
+    const { token, userid } = req.cookies;
+    const { params: { articleId } } = req;
+    req.header = token;
+    try {
+        pool.query('DELETE FROM  articles  WHERE id = $1 AND employee_id = $2 RETURNING id, title', [articleId, userid], (err, result) => {
+          if(result.rows[0] === undefined){ return res.jsend.error("Delete article failed");}
+          if (!err) {
+            return res.jsend.success({
+              message: 'Article succesfully deleted ',
+              title: result.rows[0].title
+            });
+          } 
+          return res.jsend.error(err);
+        });
+    } catch (error) { debug('app:*')('Error Occured: Something wrong @deleteArticle'); }
+    // disconnect client
+    pool.on('remove', () => {
+      debug('app:*')('Client Removed @deleteAricle');
+    });
     
   },
 

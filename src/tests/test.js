@@ -147,11 +147,12 @@ describe("Teamwork Application Unit Tests", () => {
         });
 
         it('Delete an article', function(done) {
+            const articleId = 1;
             chai.request(app)
-                .delete('/articles/:Id')
+                .delete(`/api/v1/articles/${articleId}`)
                 .end(function(err, res) {
                     res.should.have.status(200);
-                    // res.body.should.be.a('object');
+                    res.body.should.be.a('object');
                     done(err);
                 });
         });

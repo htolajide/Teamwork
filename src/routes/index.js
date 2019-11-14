@@ -28,10 +28,10 @@ router.post('/articles', authenticator, validator.article, article.create);
 router.patch('/articles/:articleId', authenticator, validator.checkArticleIdParams, article.edit);
 
 // Delete an article
-router.delete('/articles/:articleID', authenticator, validator.checkArticleIdParams, article.delete);
+router.delete('/articles/:articleId', authenticator, validator.checkArticleIdParams, article.delete);
 
 // Delete an article comment
-router.delete('/articles/:articleID', authenticator, validator.checkArticleIdParams, article.deleteComment);
+router.delete('/articles/:articleId', authenticator, validator.checkArticleIdParams, article.deleteComment);
 
 // Comment on an article
 router.post('/articles/<:articleId>/comment', authenticator, validator.checkArticleIdParams, article.createComment);
