@@ -9,7 +9,7 @@ export default {
     const { title, article} = req.body;
     req.header = token;
     try {
-        // create trip if user is admin
+        // create user account if user is admin
         pool.query('INSERT INTO articles (employee_id, title, article) VALUES ($1, $2, $3) RETURNING id, title, articledate ', [userid, title, article], (err, result) => {
           if (!err) {
             return res.jsend.success({
@@ -29,14 +29,13 @@ export default {
     });
    
   },
-  // user login logic
+  // edit article logic
   edit: async (req, res) => {
     const { token, userid } = req.cookies;
     const { title, article} = req.body;
     const { params: { articleId } } = req;
     req.header = token;
     try {
-        // create trip if user is admin
         pool.query('UPDATE  articles SET  title = $1, article = $2  WHERE id = $3 AND employee_id = $4 RETURNING title, article, articledate', [title, article, articleId, userid], (err, result) => {
           if(result.rows[0] === undefined){ return res.jsend.error("Article update failed");}
           if (!err) {
@@ -54,9 +53,8 @@ export default {
     pool.on('remove', () => {
       debug('app:*')('Client Removed @ editAricle');
     });
-   
-  
   },
+
   // user login logic
   delete: async (req, res) => {
     
