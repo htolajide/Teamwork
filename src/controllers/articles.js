@@ -1,13 +1,11 @@
-import jwt from 'jsonwebtoken';
 import debug from 'debug';
-import bcrypt from 'bcrypt';
 import pool from '../database/dbconnect';
 
 export default {
   create: async (req, res) => {
     const { token, userid } = req.cookies;
     const { title, article} = req.body;
-    req.header = token;
+    // token = req.header();
     try {
         // employee post new article
         pool.query('INSERT INTO articles (employee_id, title, article) VALUES ($1, $2, $3) RETURNING id, title, articledate', [userid, title, article], (err, result) => {
@@ -18,7 +16,6 @@ export default {
               createdOn: result.rows[0].articledate,
               title: result.rows[0].title,
             });
-            return;
           }
           return res.jsend.error(err);
         });
@@ -34,7 +31,7 @@ export default {
     const { token, userid } = req.cookies;
     const { title, article} = req.body;
     const { params: { articleId } } = req;
-    req.header = token;
+    // token = req.header();
     try {
         pool.query('UPDATE  articles SET  title = $1, article = $2  WHERE id = $3 AND employee_id = $4 RETURNING title, article, articledate', [title, article, articleId, userid], (err, result) => {
           if(result.rows[0] === undefined){ return res.jsend.error("Article update failed");}
@@ -59,7 +56,7 @@ export default {
   delete: async (req, res) => {
     const { token, userid } = req.cookies;
     const { params: { articleId } } = req;
-    req.header = token;
+    // token = req.header();
     try {
         pool.query('DELETE FROM  articles  WHERE id = $1 AND employee_id = $2 RETURNING id, title', [articleId, userid], (err, result) => {
           if(result.rows[0] === undefined){ return res.jsend.error("Delete article failed");}
@@ -87,7 +84,7 @@ export default {
     const { token, userid } = req.cookies;
     const { params: { articleId } } = req;
     const {comment} = req.body;
-    req.header = token;
+    // token = req.header();
     try {
         pool.query('SELECT title, article FROM  articles  WHERE id = $1', [articleId], (err, result) => {
           if(result.rows[0] === undefined){ return res.jsend.error("No article to comment on");}
@@ -110,9 +107,7 @@ export default {
     // disconnect client
     pool.on('remove', () => {
       debug('app:*')('Client Removed @commentArticle');
-    }); 
-
-   
+    });
   },
   // user login logic
   deleteComment: async (req, res) => {

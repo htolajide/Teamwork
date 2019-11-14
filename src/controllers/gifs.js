@@ -15,6 +15,7 @@ export default {
     // check if user is admin
     const { token, userid } = req.cookies;
     const {url, title} = req.body;
+    // token = req.header();
     try {
       // Upload gif to cloudinary
       await cloudinary.uploader.upload(url, { tags: 'basic_sample', "width": 200, "height": 150,  })
@@ -53,7 +54,7 @@ export default {
   delete: async (req, res) => {
     const { token, userid } = req.cookies;
     const { params: { gifId } } = req;
-    req.header = token;
+    // token = req.header();
     try {
         pool.query('DELETE FROM  gif  WHERE id = $1 AND employee_id = $2 RETURNING id, title', [gifId, userid], (err, result) => {
           if(result.rows[0] === undefined){ return res.jsend.error("Delete gif failed");}
@@ -77,7 +78,32 @@ export default {
   },
   // user login logic
   createComment: async (req, res) => {
-
+    const { token, userid } = req.cookies;
+    const { params: { gifId } } = req;
+    const {comment} = req.body;
+    // token = req.header();
+    try {
+        pool.query('SELECT title FROM  gif  WHERE id = $1', [gifId], (err, result) => {
+          if(result.rows[0] === undefined){ return res.jsend.error("No gif to comment on");}
+          if (!err) {
+            pool.query('INSERT INTO gif_comment (comment, employee_id, gif_id) VALUES ($1, $2, $3) RETURNING comment, comment_date', [comment, userid, gifId], (error, commentResult) => {
+              if(!error){
+                return res.jsend.success({
+                message: 'Comment succesfully created',
+                createdOn: commentResult.rows[0].comment_date,
+                gifTitle: result.rows[0].title,
+                comment: commentResult.rows[0].comment,
+              });
+            }
+            return res.jsend.error(error);
+            }); 
+          } 
+        });
+    } catch (error) { debug('app:*')('Error Occured: Something wrong commentGif'); }
+    // disconnect client
+    pool.on('remove', () => {
+      debug('app:*')('Client Removed @commentGif');
+    }); 
   },
 
   // user login logic

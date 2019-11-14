@@ -37,7 +37,7 @@ router.delete('/articles/:articleId', authenticator, validator.checkArticleIdPar
 router.post('/articles/:articleId/comment', authenticator, validator.checkArticleIdParams, article.createComment);
 
 // Comment on a gif
-router.post('/gifs/<:gifId>/comment',authenticator, validator.checkGifIdParams, gif.createComment);
+router.post('/gifs/:gifId/comment',authenticator, validator.checkGifIdParams, gif.createComment);
 
 // View all article or gif with recent first
 router.get('/feed', authenticator, article.findAllArticleOrGif);

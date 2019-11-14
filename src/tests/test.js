@@ -108,11 +108,11 @@ describe("Teamwork Application Unit Tests", () => {
         });
 
         it('Post comment on gif', function(done) {
+            const gifId = 3;
             chai.request(app)
-                .post('/gifs/:Id/comment')
+                .post(`/api/v1/gifs/${gifId}/comment`)
                 .send({
-                    email: 'run',
-                    password: false
+                    comment: 'Good post',
                 })
                 .end(function(err, res) {
                     res.should.have.status(200);
