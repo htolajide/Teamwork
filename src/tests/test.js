@@ -94,11 +94,11 @@ describe("Teamwork Application Unit Tests", () => {
         });
 
         it('Post comment on article', function(done) {
+            const articleId = 3;
             chai.request(app)
-                .post('/articles/:Id/comment')
+                .post(`/api/v1/articles/${articleId}/comment`)
                 .send({
-                    email: 'run',
-                    password: false
+                    comment: 'This is nice',
                 })
                 .end(function(err, res) {
                     res.should.have.status(200);

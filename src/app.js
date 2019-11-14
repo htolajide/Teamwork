@@ -30,7 +30,8 @@ app.use(jsend.middleware);
 table.createEmployeeTable();
 table.createGifTable();
 table.createArticlesTable();
-table.createCommentTable();
+table.createGifCommentTable();
+table.createArticleCommentTable();
 
 table.disconnect();
 

@@ -34,7 +34,7 @@ router.delete('/articles/:articleId', authenticator, validator.checkArticleIdPar
 router.delete('/articles/:articleId', authenticator, validator.checkArticleIdParams, article.deleteComment);
 
 // Comment on an article
-router.post('/articles/<:articleId>/comment', authenticator, validator.checkArticleIdParams, article.createComment);
+router.post('/articles/:articleId/comment', authenticator, validator.checkArticleIdParams, article.createComment);
 
 // Comment on a gif
 router.post('/gifs/<:gifId>/comment',authenticator, validator.checkGifIdParams, gif.createComment);

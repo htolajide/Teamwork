@@ -10,7 +10,7 @@ export default {
     req.header = token;
     try {
         // employee post new article
-        pool.query('INSERT INTO articles (employee_id, title, article) VALUES ($1, $2, $3) RETURNING id, title, articledate ', [userid, title, article], (err, result) => {
+        pool.query('INSERT INTO articles (employee_id, title, article) VALUES ($1, $2, $3) RETURNING id, title, articledate', [userid, title, article], (err, result) => {
           if (!err) {
             return res.jsend.success({
               message: 'Article Succesfully posted',
@@ -78,12 +78,40 @@ export default {
     }); 
   },
 
-  // user login logic
+  // user get a specific article
   getOne: async (req, res) => {
    
   },
-  // user login logic
+  // user comment on article
   createComment: async (req, res) => {
+    const { token, userid } = req.cookies;
+    const { params: { articleId } } = req;
+    const {comment} = req.body;
+    req.header = token;
+    try {
+        pool.query('SELECT title, article FROM  articles  WHERE id = $1', [articleId], (err, result) => {
+          if(result.rows[0] === undefined){ return res.jsend.error("No article to comment on");}
+          if (!err) {
+            pool.query('INSERT INTO article_comment (comment, employee_id, article_id) VALUES ($1, $2, $3) RETURNING comment, comment_date', [comment, userid, articleId], (error, commentResult) => {
+              if(!error){
+                return res.jsend.success({
+                message: 'Comment succesfully created',
+                createdOn: commentResult.rows[0].comment_date,
+                articleTitle: result.rows[0].title,
+                article: result.rows[0].article,
+                comment: commentResult.rows[0].comment,
+              });
+            }
+            return res.jsend.error(error);
+            }); 
+          } 
+        });
+    } catch (error) { debug('app:*')('Error Occured: Something wrong commentArticle'); }
+    // disconnect client
+    pool.on('remove', () => {
+      debug('app:*')('Client Removed @commentArticle');
+    }); 
+
    
   },
   // user login logic
