@@ -16,7 +16,7 @@ router.post('/auth/signin', validator.auth, users.login);
 router.post('/gifs', authenticator, gif.create);
 
 // Delete a gif
-router.delete('/gifs/:gifID', authenticator, validator.checkGifIdParams, gif.delete);
+router.delete('/gifs/:gifId', authenticator, validator.checkGifIdParams, gif.delete);
 
 // Delete a gif comment
 router.delete('/gifs/:gifID',  gif.deleteComment);

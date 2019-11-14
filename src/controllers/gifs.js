@@ -45,14 +45,31 @@ export default {
     .catch(function (err) {
       console.log();
       console.log("** File Upload (Promise)");
-      if (err) { debug('app:*')('Error Occured: Something wrong @createGif'); }
+      if (err) { debug('app:*')('Error Occured: Something wrong @createGif' + err); }
     });
   }catch (error) { debug('app:*')('Error Occured: Something wrong @createGif'); }   
 },
-  // user login logic
+  // user delete gif logic
   delete: async (req, res) => {
-    
-   
+    const { token, userid } = req.cookies;
+    const { params: { gifId } } = req;
+    req.header = token;
+    try {
+        pool.query('DELETE FROM  gif  WHERE id = $1 AND employee_id = $2 RETURNING id, title', [gifId, userid], (err, result) => {
+          if(result.rows[0] === undefined){ return res.jsend.error("Delete gif failed");}
+          if (!err) {
+            return res.jsend.success({
+              message: 'Gif succesfully deleted ',
+              title: result.rows[0].title
+            });
+          } 
+          return res.jsend.error(err);
+        });
+    } catch (error) { debug('app:*')('Error Occured: Something wrong @deleteGif ' + error); }
+    // disconnect client
+    pool.on('remove', () => {
+      debug('app:*')('Client Removed @deleteGif');
+    }); 
   },
   // user login logic
   getOne: async (req, res) => {

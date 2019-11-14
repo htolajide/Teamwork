@@ -137,11 +137,12 @@ describe("Teamwork Application Unit Tests", () => {
     });
     describe('Test for DELETE tasks', function() {
         it('Delete a gif', function(done) {
+            const gifId = 4;
             chai.request(app)
-                .delete('/gifs/:Id')
+                .delete(`/api/v1/gifs/${gifId}`)
                 .end(function(err, res) {
                     res.should.have.status(200);
-                    // res.body.should.be.a('object');
+                    res.body.should.be.a('object');
                     done(err);
                 });
         });

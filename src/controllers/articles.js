@@ -74,9 +74,8 @@ export default {
     } catch (error) { debug('app:*')('Error Occured: Something wrong @deleteArticle'); }
     // disconnect client
     pool.on('remove', () => {
-      debug('app:*')('Client Removed @deleteAricle');
-    });
-    
+      debug('app:*')('Client Removed @deleteArticle');
+    }); 
   },
 
   // user login logic
