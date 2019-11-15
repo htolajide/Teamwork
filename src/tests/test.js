@@ -47,7 +47,7 @@ describe("Teamwork Application Unit Tests", () => {
     });
 
     describe('Test for POST tasks', function() {
-        it('Create a new user', function(done) {
+       /** it('Create a new user', function(done) {
             this.timeout(0);
                 const user = {
                     email: 'jelel@yahoo.com', 
@@ -83,7 +83,7 @@ describe("Teamwork Application Unit Tests", () => {
                     done();
                 });
         });
-
+*/
         it('Post new article', function(done) {
             chai.request(app)
                 .post('/api/v1/articles')
