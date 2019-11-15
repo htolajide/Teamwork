@@ -60,7 +60,7 @@ describe("Teamwork Application Unit Tests", () => {
                 .end(function(err, res) {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    done(err);
+                    done();
                 });
         });
 
@@ -74,7 +74,7 @@ describe("Teamwork Application Unit Tests", () => {
                 .end(function(err, res) {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    done(err);
+                    done();
                 });
         });
 
