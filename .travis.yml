@@ -1,16 +1,14 @@
 language: node_js
 
 node_js:
-  - "stable"
+  - 10.16.0 
 cache:
   directories:
     - "node_modules"
 
-before_install:
-  - npm i -g npm@6.9.0
-
 services:
   - postgresql
+
 env:
   global:
   - PGPORT=5433
@@ -19,8 +17,9 @@ env:
 
 before_script:
   - psql -c 'create database teamwork;' -U postgres
-  
+
 script:
-  - npm test
+  - npm run test
+
 after_success:
   - npm run coverage
