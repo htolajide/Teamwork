@@ -18,9 +18,9 @@ describe("Teamwork Application Unit Tests", () => {
                      done(err);
                   });
          });
-        // Test to get single student record
+
         it("should get a specific article", (done) => {
-             const id = 1;
+             const id = 3;
              chai.request(app)
                  .get(`GET /articles/${id}`)
                  .end((err, res) => {
@@ -30,9 +30,8 @@ describe("Teamwork Application Unit Tests", () => {
                   });
          });
 
-
         it("should get a specific gif", (done) => {
-             const id = 1;
+             const id = 6;
              chai.request(app)
                  .get(`/gifs/${id}`)
                  .end((err, res) => {
@@ -160,7 +159,7 @@ describe("Teamwork Application Unit Tests", () => {
 
         it('Delete an article comment', function(done) {
             chai.request(app)
-                .delete('/articles/:Id/comment')
+                .delete('/api/v1/articles/:Id/comment')
                 .end(function(err, res) {
                     res.should.have.status(200);
                     //res.body.should.be.a('object');
@@ -170,7 +169,7 @@ describe("Teamwork Application Unit Tests", () => {
 
         it('Delete a gif comment', function(done) {
             chai.request(app)
-                .delete('/gifs/:Id/comment')
+                .delete('/api/v1/gifs/:Id/comment')
                 .end(function(err, res) {
                     res.should.have.status(200);
                     //res.body.should.be.a('object');

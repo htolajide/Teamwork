@@ -136,7 +136,7 @@ export default {
    
   },
   // user login logic
-  findAllArticleOrGif: async (req, res) => {
+  getFeed: async (req, res) => {
     const { token } = req.cookies;
     req.Header = token;
     // token = req.header();
