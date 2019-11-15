@@ -158,8 +158,10 @@ describe("Teamwork Application Unit Tests", () => {
         });
 
         it('Delete an article comment', function(done) {
+            const articleId = 3;
+            const commentId = 1;
             chai.request(app)
-                .delete('/api/v1/articles/:Id/comment')
+                .delete(`/api/v1/articles/${articleId}/comment/${commentId}`)
                 .end(function(err, res) {
                     res.should.have.status(200);
                     //res.body.should.be.a('object');
@@ -168,8 +170,10 @@ describe("Teamwork Application Unit Tests", () => {
         });
 
         it('Delete a gif comment', function(done) {
+            const gifId = 6;
+            const commentId = 1;
             chai.request(app)
-                .delete('/api/v1/gifs/:Id/comment')
+                .delete(`/api/v1/gifs/${gifId}/comment/${commentId}`)
                 .end(function(err, res) {
                     res.should.have.status(200);
                     //res.body.should.be.a('object');

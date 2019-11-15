@@ -19,7 +19,7 @@ router.post('/gifs', authenticator, gif.create);
 router.delete('/gifs/:gifId', authenticator, validator.checkGifIdParams, gif.delete);
 
 // Delete a gif comment
-router.delete('/gifs/:gifID/comment/:commentId', authenticator,  gif.deleteComment);
+router.delete('/gifs/:gifID/comment/:commentId', authenticator, validator.checkCommentIdParams,  gif.deleteComment);
 
 // Create article
 router.post('/articles', authenticator, validator.article, article.create);
@@ -31,7 +31,7 @@ router.patch('/articles/:articleId', authenticator, validator.checkArticleIdPara
 router.delete('/articles/:articleId', authenticator, validator.checkArticleIdParams, article.delete);
 
 // Delete an article comment
-router.delete('/articles/:articleId/comment/:commentId', authenticator, validator.checkArticleIdParams, article.deleteComment);
+router.delete('/articles/:articleId/comment/:commentId', authenticator, validator.checkCommentIdParams, article.deleteComment);
 
 // Comment on an article
 router.post('/articles/:articleId/comment', authenticator, validator.checkArticleIdParams, article.createComment);
