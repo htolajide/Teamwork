@@ -7,6 +7,10 @@ import app from '../app';
 chai.use(chatHttp);
 chai.should();
 describe("Teamwork Application Unit Tests", () => {
+    beforeEach( function (){
+        const userid = 1;
+        return userid;
+    });
     describe("Test for GET tasks", () => {
         // Test to get all articles and gifs
         it("should get feed", (done) => {
