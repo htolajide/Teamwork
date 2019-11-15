@@ -10,7 +10,7 @@
     "start": "node dist/app.js",
     "create-tables": "node  ./src/models/tables tables",
     "start:dev": "nodemon --exec babel-node src/app.js",
-    "test": "SET NODE_ENV=test&& mocha --require @babel/register src/tests/*.js --exit",
+    "test": "mocha --require @babel/register src/tests/*.js --exit",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "author": "Taofeek Hammed",
