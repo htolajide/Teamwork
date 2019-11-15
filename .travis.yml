@@ -11,13 +11,6 @@ before_install:
 
 services:
   - postgresql
-
-addons:
-  postgresql: "9"
-  apt:
-    packages:
-    - postgresql-9
-    - postgresql-client-9
 env:
   global:
   - PGPORT=5433
@@ -26,7 +19,7 @@ env:
 
 before_script:
   - psql -c 'create database teamwork;' -U postgres
-  - npm run build
+  
 script:
   - npm test
 after_success:
