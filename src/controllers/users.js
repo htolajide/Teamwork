@@ -12,6 +12,7 @@ export default {
     } = req.body;
     try {
       pool.query('SELECT isadmin FROM employee WHERE id = $1', [userid], (error, results) => {
+        if(results.rows[0] === undefined){ return res.jsend.error("You are not an admin");}
           if (!error) {
             if (results.rows[0].isadmin === false) return res.jsend.error('Only admin can can create an employee user account');
           }

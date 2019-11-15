@@ -19,7 +19,7 @@ router.post('/gifs', authenticator, gif.create);
 router.delete('/gifs/:gifId', authenticator, validator.checkGifIdParams, gif.delete);
 
 // Delete a gif comment
-router.delete('/gifs/:gifID',  gif.deleteComment);
+router.delete('/gifs/:gifID/comment/:commentId', authenticator,  gif.deleteComment);
 
 // Create article
 router.post('/articles', authenticator, validator.article, article.create);
@@ -31,13 +31,13 @@ router.patch('/articles/:articleId', authenticator, validator.checkArticleIdPara
 router.delete('/articles/:articleId', authenticator, validator.checkArticleIdParams, article.delete);
 
 // Delete an article comment
-router.delete('/articles/:articleId', authenticator, validator.checkArticleIdParams, article.deleteComment);
+router.delete('/articles/:articleId/comment/:commentId', authenticator, validator.checkArticleIdParams, article.deleteComment);
 
 // Comment on an article
 router.post('/articles/:articleId/comment', authenticator, validator.checkArticleIdParams, article.createComment);
 
 // Comment on a gif
-router.post('/gifs/:gifId/comment',authenticator, validator.checkGifIdParams, gif.createComment);
+router.post('/gifs/:gifId/comment/',authenticator, validator.checkGifIdParams, gif.createComment);
 
 // View all article or gif with recent first
 router.get('/feed', authenticator, article.getFeed);

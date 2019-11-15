@@ -131,8 +131,27 @@ export default {
       debug('app:*')('Client Removed @commentArticle');
     });
   },
-  // user login logic
+  // delete comment
   deleteComment: async (req, res) => {
+    const { userid } = req.cookies;
+    const id = parseInt(req.params.commentId, 10);
+      try {
+        pool.query('SELECT isadmin FROM employee WHERE id = $1', [userid], (error, results) => {
+          if(results.rows[0] === undefined){ return res.jsend.error("You are not an admin");}
+            if (!error) {
+              if (results.rows[0].isadmin === false) return res.jsend.error('Only admin can can delete a comment');
+            }
+          pool.query('DELETE FROM article_comment WHERE  id = $1', [id], (error, result) => {
+          if (result) {
+          res.jsend.success({ message: 'Comment deleted successfully' });
+        }
+      });
+    });
+    } catch (error) { debug('app:*')(error); }
+    // disconnect client
+    pool.on('remove', () => {
+      debug('app:*')('Client removed @deleteComment');
+    });
    
   },
   // user login logic

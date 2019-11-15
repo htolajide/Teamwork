@@ -11,7 +11,7 @@ describe("Teamwork Application Unit Tests", () => {
         // Test to get all articles and gifs
         it("should get feed", (done) => {
              chai.request(app)
-                 .get('api/v1/feed')
+                 .get('/api/v1/feed')
                  .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -22,7 +22,7 @@ describe("Teamwork Application Unit Tests", () => {
         it("should get a specific article", (done) => {
              const id = 3;
              chai.request(app)
-                 .get(`GET /articles/${id}`)
+                 .get(`/api/v1/articles/${id}`)
                  .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -33,7 +33,7 @@ describe("Teamwork Application Unit Tests", () => {
         it("should get a specific gif", (done) => {
              const id = 6;
              chai.request(app)
-                 .get(`/gifs/${id}`)
+                 .get(`/api/v1/gifs/${id}`)
                  .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
