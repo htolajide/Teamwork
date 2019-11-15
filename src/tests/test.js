@@ -69,7 +69,7 @@ describe("Teamwork Application Unit Tests", () => {
         });
 
         it('Login a user', function(done) {
-            chai.request(app)
+             chai.request(app)
                 .post('/api/v1/auth/signin')
                 .send({
                     email: 'jelel@yahoo.com',
