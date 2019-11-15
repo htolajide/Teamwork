@@ -115,5 +115,28 @@ export default {
   },
   // user login logic
   findAllArticleOrGif: async (req, res) => {
+    const { token } = req.cookies;
+    req.Header = token;
+    // token = req.header();
+    try {
+      pool.query('SELECT id, employee_id as authorId, title, article, articledate as createdOn FROM  articles  ORDER BY articledate DESC ', (err, result) => {
+        if(result.rows[0] === undefined){ return res.jsend.error("Article not available");}
+        if (!err) {
+              return res.jsend.success(result.rows);
+          }
+          return res.jsend.error('Unable to get articles'); 
+      });
+      pool.query('SELECT id, employee_id as authorId, title, imageurl as url, gifdate as createdOn FROM  gif  ORDER BY gifdate DESC', (err, result) => {
+        if(result.rows[0] === undefined){ return res.jsend.error("Gif not available");}
+        if (!err) {
+              return res.jsend.success(result.rows);
+          }
+          return res.jsend.error('Unable to get gifs'); 
+      });
+  } catch (error) { debug('app:*')('Error Occured: Something wrong gettingArticleOrGif'); }
+  // disconnect client
+  pool.on('remove', () => {
+    debug('app:*')('Client Removed @getArticleOrGif');
+  });
   }
 };

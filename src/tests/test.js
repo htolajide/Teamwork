@@ -11,7 +11,7 @@ describe("Teamwork Application Unit Tests", () => {
         // Test to get all articles and gifs
         it("should get all article or gifs", (done) => {
              chai.request(app)
-                 .get('/feed')
+                 .get('api/v1/feed')
                  .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');

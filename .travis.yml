@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - 10.14.1 
+  - "stable"
 cache:
   directories:
     - "node_modules"
@@ -9,18 +9,15 @@ cache:
 before_install:
   - npm i -g npm@6.9.0
 
-install:
-  - npm install
-  - npm i @babel/core
 services:
   - postgresql
 
 addons:
-  postgresql: "10"
+  postgresql: "9"
   apt:
     packages:
-    - postgresql-10
-    - postgresql-client-10
+    - postgresql-9
+    - postgresql-client-9
 env:
   global:
   - PGPORT=5433
