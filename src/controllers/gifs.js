@@ -72,9 +72,31 @@ export default {
       debug('app:*')('Client Removed @deleteGif');
     }); 
   },
-  // user login logic
+  // Get specific gif
   getOne: async (req, res) => {
-    
+    const { params: { gifId } } = req;
+    try {
+      pool.query('SELECT id, title, imageurl as imageurl, gifdate FROM gif WHERE id = $1', [gifId], (error, result) => {
+        pool.query('SELECT id as commentId, comment, employee_id as authorId from gif_comment WHERE gif_id = $1 ', [gifId], (err, commentResult) => {
+          if(!error){
+            if (!err) {
+              return res.jsend.success({
+                id: result.rows[0].id,
+                createdOn: result.rows[0].gifdate,
+                title: result.rows[0].title,
+                url: result.rows[0].imageurl,
+                comment: commentResult.rows,
+              });
+            }
+            return res.jsend.error(error);
+          }
+        });
+      });
+    } catch (error) { debug('app:*')('Error Occured: Something wrong getting gif'); }
+    // disconnect client
+    pool.on('remove', () => {
+      debug('app:*')('Client Removed @gettingGif');
+    });
   },
   // user login logic
   createComment: async (req, res) => {
@@ -99,14 +121,13 @@ export default {
             }); 
           } 
         });
-    } catch (error) { debug('app:*')('Error Occured: Something wrong commentGif'); }
+    } catch (error) { debug('app:*')('Error Occured: Something wrong getting article'); }
     // disconnect client
     pool.on('remove', () => {
       debug('app:*')('Client Removed @commentGif');
     }); 
   },
-
-  // user login logic
+  // user delete comment
   deleteComment: async (req, res) => {
     
   },

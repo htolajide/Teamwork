@@ -77,7 +77,29 @@ export default {
 
   // user get a specific article
   getOne: async (req, res) => {
-   
+    const { params: { articleId } } = req;
+    try {
+      pool.query('SELECT id, title, article, articledate FROM articles WHERE id = $1', [articleId], (error, result) => {
+        pool.query('SELECT id as commentId, comment, employee_id as authorId from article_comment WHERE article_id = $1 ', [articleId], (err, commentResult) => {
+          if(!error){
+            if (!err) {
+              return res.jsend.success({
+                id: result.rows[0].id,
+                createdOn: result.rows[0].articledate,
+                title: result.rows[0].title,
+                article: result.rows[0].article,
+                comment: commentResult.rows,
+              });
+            }
+            return res.jsend.error(error);
+          }
+        });
+      });
+    } catch (error) { debug('app:*')('Error Occured: Something wrong getting article'); }
+    // disconnect client
+    pool.on('remove', () => {
+      debug('app:*')('Client Removed @gettingArticle');
+    });
   },
   // user comment on article
   createComment: async (req, res) => {
@@ -119,24 +141,18 @@ export default {
     req.Header = token;
     // token = req.header();
     try {
-      pool.query('SELECT id, employee_id as authorId, title, article, articledate as createdOn FROM  articles  ORDER BY articledate DESC ', (err, result) => {
-        if(result.rows[0] === undefined){ return res.jsend.error("Article not available");}
+      pool.query('SELECT id, employee_id as authorId, title, article, articledate as createdOn FROM  articles'
+      + ' UNION ALL '
+      + 'SELECT id, employee_id as authorId, title, imageurl as url, gifdate as createdOn FROM  gif  ORDER BY createdON DESC', (err, result) => {
         if (!err) {
               return res.jsend.success(result.rows);
           }
-          return res.jsend.error('Unable to get articles'); 
+          return res.jsend.error('Unable to get feed '+ err); 
       });
-      pool.query('SELECT id, employee_id as authorId, title, imageurl as url, gifdate as createdOn FROM  gif  ORDER BY gifdate DESC', (err, result) => {
-        if(result.rows[0] === undefined){ return res.jsend.error("Gif not available");}
-        if (!err) {
-              return res.jsend.success(result.rows);
-          }
-          return res.jsend.error('Unable to get gifs'); 
-      });
-  } catch (error) { debug('app:*')('Error Occured: Something wrong gettingArticleOrGif'); }
+  } catch (error) { debug('app:*')('Error Occured: Something wrong gettingFeed ' + error); }
   // disconnect client
   pool.on('remove', () => {
-    debug('app:*')('Client Removed @getArticleOrGif');
+    debug('app:*')('Client Removed @getFeed');
   });
   }
 };

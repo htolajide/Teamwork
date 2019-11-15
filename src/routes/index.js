@@ -43,7 +43,7 @@ router.post('/gifs/:gifId/comment',authenticator, validator.checkGifIdParams, gi
 router.get('/feed', authenticator, article.findAllArticleOrGif);
 
 // View  a specific article
-router.get( '/article/:articleId', authenticator, validator.checkArticleIdParams, article.getOne,);
+router.get( '/articles/:articleId', authenticator, validator.checkArticleIdParams, article.getOne,);
 
 // View  a specific gif
 router.get( '/gifs/:gifId', authenticator, validator.checkGifIdParams, gif.getOne,);

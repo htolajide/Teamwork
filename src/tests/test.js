@@ -9,7 +9,7 @@ chai.should();
 describe("Teamwork Application Unit Tests", () => {
     describe("Test for GET tasks", () => {
         // Test to get all articles and gifs
-        it("should get all article or gifs", (done) => {
+        it("should get feed", (done) => {
              chai.request(app)
                  .get('api/v1/feed')
                  .end((err, res) => {

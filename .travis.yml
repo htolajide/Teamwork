@@ -20,6 +20,7 @@ before_script:
 
 script:
   - npm run test
+  - npm run buid
 
 after_success:
   - npm run coverage
