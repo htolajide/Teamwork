@@ -48,6 +48,7 @@ describe("Teamwork Application Unit Tests", () => {
 
     describe('Test for POST tasks', function() {
         it('Create a new user', function(done) {
+            this.timeout(0);
                 const user = {
                     email: 'jelel@yahoo.com', 
                     firstName: 'jelel', 
@@ -69,6 +70,7 @@ describe("Teamwork Application Unit Tests", () => {
         });
 
         it('Login a user', function(done) {
+            this.timeout(0);
              chai.request(app)
                 .post('/api/v1/auth/signin')
                 .send({
