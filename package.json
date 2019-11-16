@@ -17,7 +17,7 @@
   "license": "ISC",
   "engines": {
     "node": "10.16.0"
-   },
+  },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "bcrypt": "^3.0.6",
