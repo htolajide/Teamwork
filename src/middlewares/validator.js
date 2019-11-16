@@ -60,4 +60,14 @@ export default {
     if (isInteger && isGreaterThanZero) return next();
     return res.jsend.error('ID must be an integer greater than zero');
   },
+  
+  checkCommentIdParams: (req, res, next) => {
+    const { params: { commentId } } = req;
+    const parsedNumber = parseInt(commentId, 10);
+    const isInteger = Number.isInteger(parsedNumber);
+    const isGreaterThanZero = parsedNumber > 0;
+
+    if (isInteger && isGreaterThanZero) return next();
+    return res.jsend.error('ID must be an integer greater than zero');
+  },
 };

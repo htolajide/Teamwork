@@ -11,15 +11,15 @@ export default {
       firstName, lastName, email,  password, gender, jobRole, isAdmin, department, regDate
     } = req.body;
     try {
-      pool.query('SELECT isadmin FROM employee WHERE id = $1', [userid], (error, results) => {
+      pool.query('SELECT isadmin FROM employee WHERE id = $1', [userid], async (error, results) => {
         if(results.rows[0] === undefined){ return res.jsend.error("You are not an admin");}
           if (!error) {
             if (results.rows[0].isadmin === false) return res.jsend.error('Only admin can can create an employee user account');
           }
-        pool.query('SELECT email FROM employee WHERE email = $1', [email], async (error, results) => {
+          await pool.query('SELECT email FROM employee WHERE email = $1', [email],  async (error, results) => {
           // user does not exist
           if (results.rows[0] === undefined) {
-            pool.query('INSERT INTO employee (firstName, lastName, email, password, gender, jobRole, isAdmin, department)'+
+            await pool.query('INSERT INTO employee (firstName, lastName, email, password, gender, jobRole, isAdmin, department)'+
               ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, isAdmin', [ firstName, lastName, email,  await bcrypt.hash(password, 10), gender, jobRole, isAdmin, department],  (err, result) => {
               // signin jwt and wrap in a cookie
               const token = jwt.sign({ userId: result.rows[0].id }, process.env.SECRET);
@@ -44,9 +44,9 @@ export default {
     });
   },
   // user login logic
-  login: async (req, res) => {
+  login:  (req, res) => {
     const { email, password } = req.body;
-    pool.query('SELECT id, email, password FROM employee WHERE email = $1 ', [email], async (error, results) => {
+      pool.query('SELECT id, email, password FROM employee WHERE email = $1 ', [email], async (error, results) => {
       if (error) {
         throw error;
       }

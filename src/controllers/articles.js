@@ -134,14 +134,14 @@ export default {
   // delete comment
   deleteComment: async (req, res) => {
     const { userid } = req.cookies;
-    const id = parseInt(req.params.commentId, 10);
+    const { params: { articleId, commentId } } = req;
       try {
         pool.query('SELECT isadmin FROM employee WHERE id = $1', [userid], (error, results) => {
           if(results.rows[0] === undefined){ return res.jsend.error("You are not an admin");}
             if (!error) {
               if (results.rows[0].isadmin === false) return res.jsend.error('Only admin can can delete a comment');
             }
-          pool.query('DELETE FROM article_comment WHERE  id = $1', [id], (error, result) => {
+          pool.query('DELETE FROM article_comment WHERE  id = $1 AND gif_id = $2 ', [commentId, articleId ], (error, result) => {
           if (result) {
           res.jsend.success({ message: 'Comment deleted successfully' });
         }
@@ -152,7 +152,6 @@ export default {
     pool.on('remove', () => {
       debug('app:*')('Client removed @deleteComment');
     });
-   
   },
   // user login logic
   getFeed: async (req, res) => {
