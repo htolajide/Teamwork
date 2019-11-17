@@ -43,4 +43,10 @@ CREATE TABLE gif_comment
   comment character varying NOT NULL,
   comment_date timestamp without time zone DEFAULT now(),
   CONSTRAINT gif_comment_pkey PRIMARY KEY (id)
-)
+);
+
+INSERT INTO employee(
+             firstname, lastname, email, password, gender, jobrole, isadmin, 
+            department)
+    VALUES ( 'Taofeek', 'Hammed','htolajide@yahoo.com', 'olajide4me', 'Male', 'Admin', true, 
+            'Administration');
