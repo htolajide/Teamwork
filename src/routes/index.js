@@ -40,7 +40,7 @@ router.post('/articles/:articleId/comment', authenticator, validator.checkArticl
 router.post('/gifs/:gifId/comment/',authenticator, validator.checkGifIdParams, gif.createComment);
 
 // View all article or gif with recent first
-router.get('/feed', authenticator, article.getFeed);
+router.get('/feed', article.getFeed); 
 
 // View  a specific article
 router.get( '/articles/:articleId', authenticator, validator.checkArticleIdParams, article.getOne,);
