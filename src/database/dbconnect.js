@@ -10,7 +10,7 @@ const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 console.log('this is the environment: ', env );
 
 if (env === 'production') {
-const pool = pg.Pool(configuration.production);
+const pool = pg.Pool({ connectionString: process.env.DATABASE_URL,});
 pool.on('connect', () => {
   debug('app:database')('connected to the Database');
   module.exports = pool;
