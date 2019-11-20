@@ -50,3 +50,4 @@ INSERT INTO employee(
             department)
     VALUES ( 'Taofeek', 'Hammed','htolajide@yahoo.com', 'olajide4me', 'Male', 'Admin', true, 
             'Administration');
+DELETE FROM employee;
