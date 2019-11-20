@@ -16,13 +16,14 @@ export default {
             await pool.query('INSERT INTO employee (firstName, lastName, email, password, gender, jobRole, isAdmin, department)'+
               ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, isAdmin', [ firstName, lastName, email,  await bcrypt.hash(password, 10), gender, jobRole, isAdmin, department],  (err, result) => {
               // signin jwt and wrap in a cookie
-              const usertoken = jwt.sign({ userId: result.rows[0].id }, process.env.SECRET);
+              const token = jwt.sign({ userId: result.rows[0].id }, process.env.SECRET);
               res.cookie('userid', result.rows[0].id, { expires: new Date(Date.now() + 3600000), httpOnly: true });
-              res.cookie('token', usertoken, { expires: new Date(Date.now() + 3600000), httpOnly: true });
+              res.cookie('token', token, { expires: new Date(Date.now() + 3600000), httpOnly: true });
               return res.jsend.success({
                 message: 'User account successfully created',
                 user_id: result.rows[0].id,
-                token: usertoken,
+                token: token,
+                jobRole: result.rows[0].jobRole,
                 is_admin: result.rows[0].isadmin,
               });
             });
@@ -49,11 +50,11 @@ export default {
         return res.jsend.error({ message: 'Login failed, check your password' });
       }
       // sign jwt and wrap in a cookie
-      const usertoken = jwt.sign({ userId: results.rows[0].id }, process.env.SECRET);
+      const token = jwt.sign({ userId: results.rows[0].id }, process.env.SECRET);
       res.cookie('userid', results.rows[0].id, { expires: new Date(Date.now() + 3600000), httpOnly: true });
-      res.cookie('token', usertoken, { expires: new Date(Date.now() + 3600000), httpOnly: true });
+      res.cookie('token', token, { expires: new Date(Date.now() + 3600000), httpOnly: true });
       return res.jsend.success({
-        token: usertoken, 
+        token: token, 
         user_id: results.rows[0].id
       });
     });
