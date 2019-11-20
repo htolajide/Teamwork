@@ -28,8 +28,7 @@ export default {
               });
             });
           }
-        if (results.rows[0] !== undefined) return res.jsend.error('Email already exists'); // email exists
-          return null;
+       return res.jsend.error('Email already exists'); // email exists  
       });
     } catch (error) { debug('app:*')(error); }
     // disconnect client after operation

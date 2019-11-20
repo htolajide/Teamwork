@@ -51,3 +51,4 @@ INSERT INTO employee(
     VALUES ( 'Taofeek', 'Hammed','htolajide@yahoo.com', 'olajide4me', 'Male', 'Admin', true, 
             'Administration');
 DELETE FROM employee;
+SELECT * FROM employee;
