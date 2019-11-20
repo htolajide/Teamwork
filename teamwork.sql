@@ -45,10 +45,5 @@ CREATE TABLE gif_comment
   CONSTRAINT gif_comment_pkey PRIMARY KEY (id)
 );
 
-INSERT INTO employee(
-             firstname, lastname, email, password, gender, jobrole, isadmin, 
-            department)
-    VALUES ( 'Taofeek', 'Hammed','htolajide@yahoo.com', 'olajide4me', 'Male', 'Admin', true, 
-            'Administration');
-DELETE FROM employee;
+DELETE FROM employee WHERE id = 9;
 SELECT * FROM employee;
