@@ -19,7 +19,7 @@ export default {
               const token = jwt.sign({ userId: result.rows[0].id }, process.env.SECRET);
               res.cookie('userid', result.rows[0].id, { expires: new Date(Date.now() + 3600000), httpOnly: true });
               res.cookie('token', token, { expires: new Date(Date.now() + 3600000), httpOnly: true });
-              return res.jsend.success({
+              return res.status(201).json({
                 message: 'User account successfully created',
                 user_id: result.rows[0].id,
                 token: token,
@@ -28,7 +28,10 @@ export default {
               });
             });
           }
-       return res.jsend.error('Email already exists'); // email exists  
+          return res.status(401).json({
+            status: 'Error',
+            error: new Error('Email already exists!')
+        }); 
       });
     } catch (error) { debug('app:*')(error); }
     // disconnect client after operation
@@ -41,7 +44,10 @@ export default {
     const { email, password } = req.body;
       pool.query('SELECT id, email, password FROM employee WHERE email = $1 ', [email], async (error, results) => {
       if (error) {
-        throw error;
+        return res.status(401).json({
+          status: 'error',
+          error: new Error('User not found!')
+        });;
       }
       if (results.rows[0] === undefined) return res.jsend.error('Login failed, check your inputs');
       const match = await bcrypt.compare(password, results.rows[0].password);
@@ -52,7 +58,7 @@ export default {
       const token = jwt.sign({ userId: results.rows[0].id }, process.env.SECRET);
       res.cookie('userid', results.rows[0].id, { expires: new Date(Date.now() + 3600000), httpOnly: true });
       res.cookie('token', token, { expires: new Date(Date.now() + 3600000), httpOnly: true });
-      return res.jsend.success({
+      return res.status(200).json({
         token: token, 
         user_id: results.rows[0].id
       });
