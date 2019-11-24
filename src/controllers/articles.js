@@ -159,11 +159,11 @@ export default {
     req.Header = token;
     // token = req.header();
     try {
-      pool.query('SELECT id, employee_id as authorId, title, article, articledate as createdOn FROM  articles'
+      pool.query('SELECT id, employee_id as authorId, title, articles.article as article, articledate as createdOn FROM  articles'
       + ' UNION ALL '
-      + 'SELECT id, employee_id as authorId, title, imageurl as url, gifdate as createdOn FROM  gif  ORDER BY createdON DESC', (err, result) => {
+      + 'SELECT id, employee_id as authorId, title, gif.imageurl as url, gifdate as createdOn FROM  gif  ORDER BY createdOn DESC', (err, result) => {
         if (!err) {
-              return res.jsend.success(result.rows);
+            return res.jsend.success(result.rows);
           }
           return res.jsend.error('Unable to get feed '+ err); 
       });

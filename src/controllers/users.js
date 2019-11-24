@@ -7,14 +7,14 @@ export default {
   signup: async (req, res) => {
     // check if user is admin
     const {
-      firstName, lastName, email,  password, gender, jobRole, isAdmin, department, regDate
+      firstName, lastName, email,  password, gender, jobRole, department
     } = req.body;
     try {
       pool.query('SELECT email FROM employee WHERE email = $1', [email],  async (error, results) => {
           // user does not exist
           if (results.rows[0] === undefined) {
             await pool.query('INSERT INTO employee (firstName, lastName, email, password, gender, jobRole, isAdmin, department)'+
-              ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, isAdmin', [ firstName, lastName, email,  await bcrypt.hash(password, 10), gender, jobRole, isAdmin, department],  (err, result) => {
+              ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, isAdmin', [ firstName, lastName, email,  await bcrypt.hash(password, 10), gender, jobRole, department],  (err, result) => {
               // signin jwt and wrap in a cookie
               const token = jwt.sign({ userId: result.rows[0].id }, process.env.SECRET);
               res.cookie('userid', result.rows[0].id, { expires: new Date(Date.now() + 3600000), httpOnly: true });
