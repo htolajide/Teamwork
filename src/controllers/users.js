@@ -14,7 +14,7 @@ export default {
           // user does not exist
           if (results.rows[0] === undefined) {
             await pool.query('INSERT INTO employee (firstName, lastName, email, password, gender, jobRole, department)'+
-              ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, isAdmin', [ firstName, lastName, email,  await bcrypt.hash(password, 10), gender, jobRole, department],  (err, result) => {
+              ' VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, isAdmin', [ firstName, lastName, email,  await bcrypt.hash(password, 10), gender, jobRole, department],  (err, result) => {
               // signin jwt and wrap in a cookie
               const token = jwt.sign({ userId: result.rows[0].id }, process.env.SECRET);
               res.cookie('userid', result.rows[0].id, { expires: new Date(Date.now() + 3600000), httpOnly: true });
