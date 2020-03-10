@@ -1,7 +1,7 @@
 {
-  "name": "teamwork",
+  "name": "AbaTrader",
   "version": "1.0.0",
-  "description": "A DevC Capstone Project",
+  "description": "An application for showcasing Aba Traders",
   "main": "app.js",
   "scripts": {
     "build": "babel  src --out-dir dist --copy-files",
