@@ -10,18 +10,18 @@ const config = {
 
   development: {
     user: 'postgres', // this is the db user credential
-    database: 'teamwork',
+    database: 'abia_project',
     password: 'olajide4me',
-    port: 5433,
+    port: 5432,
     max: 100, // max number of clients in the pool
     idleTimeoutMillis: 30000,
   },
 
   test: {
     user: 'postgres', // this is the db user credential
-    database: 'teamwork_test',
+    database: 'abia_project_test',
     password: 'olajide4me',
-    port: 5433,
+    port: 5432,
     max: 100, // max number of clients in the pool
     idleTimeoutMillis: 30000,
   },

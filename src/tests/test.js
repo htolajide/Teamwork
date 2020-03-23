@@ -6,16 +6,16 @@ import app from '../app';
 // Configure chai
 chai.use(chatHttp);
 chai.should();
-describe("Teamwork Application Unit Tests", () => {
+describe("Abia Project Application Unit Tests", () => {
     beforeEach( function (){
         const userid = 1;
         return userid;
     });
     describe("Test for GET tasks", () => {
         // Test to get all articles and gifs
-        it("should get feed", (done) => {
+        it("should get products", (done) => {
              chai.request(app)
-                 .get('/api/v1/feed')
+                 .get('/api/v1/products')
                  .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -23,10 +23,10 @@ describe("Teamwork Application Unit Tests", () => {
                   });
          });
 
-        it("should get a specific article", (done) => {
+        it("should get a specific product", (done) => {
              const id = 3;
              chai.request(app)
-                 .get(`/api/v1/articles/${id}`)
+                 .get(`/api/v1/product/${id}`)
                  .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -34,10 +34,10 @@ describe("Teamwork Application Unit Tests", () => {
                   });
          });
 
-        it("should get a specific gif", (done) => {
+        it("should get a specific trader", (done) => {
              const id = 6;
              chai.request(app)
-                 .get(`/api/v1/gifs/${id}`)
+                 .get(`/api/v1/trader/${id}`)
                  .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
@@ -47,16 +47,16 @@ describe("Teamwork Application Unit Tests", () => {
     });
 
     describe('Test for POST tasks', function() {
-       /** it('Create a new user', function(done) {
+        it('Create a new user', function(done) {
             this.timeout(0);
                 const user = {
                     email: 'jelel@yahoo.com', 
-                    firstName: 'jelel', 
-                    lastName: 'Hammed', 
+                    name: 'Hammed Taofeek', 
+                    bus_name: 'Hammed', 
                     password: 'olajide4me', 
-                    gender: 'Male', 
-                    jobRole: 'Administrator', 
-                    department: 'Admin', 
+                    bus_description: 'I make shoes', 
+                    photourl: 'user/user1.png', 
+                    address: 'Admin', 
                 };
                 chai.request(app)
                 .post('/api/v1/auth/create-user')
@@ -65,7 +65,7 @@ describe("Teamwork Application Unit Tests", () => {
                 .end(function(err, res) {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    done();
+                    done(err);
                 });
         });
 
@@ -80,16 +80,18 @@ describe("Teamwork Application Unit Tests", () => {
                 .end(function(err, res) {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    done();
+                    done(err);
                 });
         });
-*/
-        it('Post new article', function(done) {
+
+        it('Post new product', function(done) {
             chai.request(app)
-                .post('/api/v1/articles')
+                .post('/api/v1/product')
                 .send({
-                    title: 'Test Post article',
-                    article: 'am just testing posting articles'
+                    name: 'Shoe',
+                    trader_id: 1,
+                    imageurl: 'product/shoe.png',
+                    price: 1500.00
                 })
                 .end(function(err, res) {
                     res.should.have.status(200);
@@ -98,53 +100,14 @@ describe("Teamwork Application Unit Tests", () => {
                 });
         });
 
-        it('Post comment on article', function(done) {
-            const articleId = 3;
-            chai.request(app)
-                .post(`/api/v1/articles/${articleId}/comment`)
-                .send({
-                    comment: 'This is nice',
-                })
-                .end(function(err, res) {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    done(err);
-                });
-        });
-
-        it('Post comment on gif', function(done) {
-            const gifId = 3;
-            chai.request(app)
-                .post(`/api/v1/gifs/${gifId}/comment`)
-                .send({
-                    comment: 'Good post',
-                })
-                .end(function(err, res) {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    done(err);
-                });
-        });
-
-        it('Post new gif', function(done) {
-            chai.request(app)
-                .post('/api/v1/gifs')
-                .send({
-                    title: 'Test Post',
-                    url: 'gifs/jona.jpg'
-                })
-                .end(function(err, res) {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    done();
-                });
-        });
     });
+
     describe('Test for DELETE tasks', function() {
-        it('Delete a gif', function(done) {
-            const gifId = 4;
+
+        it('Delete a trader', function(done) {
+            const traderId = 1;
             chai.request(app)
-                .delete(`/api/v1/gifs/${gifId}`)
+                .delete(`/api/v1/trader/${traderId}`)
                 .end(function(err, res) {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
@@ -152,34 +115,10 @@ describe("Teamwork Application Unit Tests", () => {
                 });
         });
 
-        it('Delete an article', function(done) {
-            const articleId = 1;
+        it('Delete a product', function(done) {
+            const productId = 6;
             chai.request(app)
-                .delete(`/api/v1/articles/${articleId}`)
-                .end(function(err, res) {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    done(err);
-                });
-        });
-
-        it('Delete an article comment', function(done) {
-            const articleId = 3;
-            const commentId = 1;
-            chai.request(app)
-                .delete(`/api/v1/articles/${articleId}/comment/${commentId}`)
-                .end(function(err, res) {
-                    res.should.have.status(200);
-                    //res.body.should.be.a('object');
-                    done(err);
-                });
-        });
-
-        it('Delete a gif comment', function(done) {
-            const gifId = 6;
-            const commentId = 1;
-            chai.request(app)
-                .delete(`/api/v1/gifs/${gifId}/comment/${commentId}`)
+                .delete(`/api/v1/products/${productId}`)
                 .end(function(err, res) {
                     res.should.have.status(200);
                     //res.body.should.be.a('object');
@@ -189,13 +128,15 @@ describe("Teamwork Application Unit Tests", () => {
     });
 
     describe('Test for PATCH/PUT tasks', function() {
-        it('Edit an article', function(done) {
-            const articleId = 5;
+        it('Edit a product', function(done) {
+            const productId = 5;
             chai.request(app)
-                .patch(`/api/v1/articles/${articleId}`)
+                .patch(`/api/v1/product/${productId}`)
                 .send({
-                    title: 'edited article',
-                    article: 'just another article edited '
+                    name: 'Sandal',
+                    trader_id: 1,
+                    imageurl: 'product/sandal.png',
+                    price: 2500.00
                 })
                 .end(function(err, res) {
                     res.should.have.status(200);
@@ -203,5 +144,21 @@ describe("Teamwork Application Unit Tests", () => {
                     done(err);
                 });
         });
+
+        it('Edit a user photo and business description', function(done) {
+            const userId = 5;
+            chai.request(app)
+                .patch(`/api/v1/user/${userId}`)
+                .send({
+                    bus_description: 'I now make shoes and canvas', 
+                    photourl: 'user/user2.png', 
+                })
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    done(err);
+                });
+        });
+
     });
 });

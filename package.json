@@ -16,8 +16,8 @@
   "author": "Taofeek Hammed",
   "license": "ISC",
   "engines": {
-    "node": "10.16.0",
-    "npm": "6.9.0"
+    "node": "13.13.1",
+    "npm": "6.13.7"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",

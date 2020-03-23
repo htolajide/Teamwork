@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - 10.16.0 
+  - 12.13.1 
 cache:
   directories:
     - "node_modules"
@@ -11,12 +11,12 @@ services:
 
 env:
   global:
-  - PGPORT=5433
+  - PGPORT=5432
   global:
   - NODE_ENV=test
 
 before_script:
-  - psql -c 'create database teamwork;' -U postgres
+  - psql -c 'create database abia_project;' -U postgres
 
 script:
   - npm run test
