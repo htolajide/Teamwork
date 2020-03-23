@@ -1,7 +1,7 @@
 {
-  "name": "teamwork",
+  "name": "AbaTrader",
   "version": "1.0.0",
-  "description": "A DevC Capstone Project",
+  "description": "An application for showcasing Aba Traders",
   "main": "app.js",
   "scripts": {
     "build": "babel  src --out-dir dist --copy-files",
@@ -16,8 +16,8 @@
   "author": "Taofeek Hammed",
   "license": "ISC",
   "engines": {
-    "node": "10.16.0",
-    "npm": "6.9.0"
+    "node": "13.13.1",
+    "npm": "6.13.7"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",

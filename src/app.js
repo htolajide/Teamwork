@@ -27,19 +27,16 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(morgan('combined'));
 app.use(jsend.middleware);
-table.createEmployeeTable();
-table.createGifTable();
-table.createArticlesTable();
-table.createGifCommentTable();
-table.createArticleCommentTable();
+table.createTraderTable();
+table.createProductTable();
 
 table.disconnect();
 
 app.use('/api/v1', v1Router);
 
-app.get('*', (req, res) => res.jsend.success('Teamwork!!!'));
+app.get('*', (req, res) => res.jsend.success('Aba Project!!!'));
 
-const port = parseInt(process.env.PORT, 10) || 4000;
+const port = parseInt(process.env.PORT, 10) || 4500;
 
 app.listen(port, () => debug('app:*')(`Live at ${port}`));
 

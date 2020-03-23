@@ -7,12 +7,15 @@ export default {
   auth: (req, res, next) => {
     const errors = [];
     const {
-      firstName, lastName, email, password,
+      name, phone, email, password, bus_desc, bus_name, address,
     } = req.body;
 
     if (req.path.includes('create-user')) {
-      errors.push(...checkForEmptyFields('First name', firstName));
-      errors.push(...checkForEmptyFields('Last name', lastName));
+      errors.push(...checkForEmptyFields('Name', name));
+      errors.push(...checkForEmptyFields('Business Name', bus_name));
+      errors.push(...checkForEmptyFields('Phone', phone));
+      errors.push(...checkForEmptyFields('Business Description', bus_desc));
+      errors.push(...checkForEmptyFields('Address', address));
     }
     errors.push(...checkPatternedFields('Email address', email, emailRegex));
     errors.push(...checkPatternedFields('Password', password, passwordRegex));
@@ -25,13 +28,12 @@ export default {
     }
     return next();
   },
-  article: (req, res, next) => {
+  product: (req, res, next) => {
     const errors = [];
-    const { title, article } = req.body;
+    const { name,  imageurl} = req.body;
 
-    errors.push(...checkForEmptyFields('Title', title));
-    errors.push(...checkForEmptyFields('Article', article));
-    errors.push(...checkPatternedFields('Article', article, articleRegex));
+    errors.push(...checkForEmptyFields('Product name', name));
+    errors.push(...checkForEmptyFields('Product image', imageurl));
 
     if (errors.length) {
       return res.jsend.error({
@@ -41,29 +43,9 @@ export default {
     }
     return next();
   },
-  checkArticleIdParams: (req, res, next) => {
-    const { params: { articleId } } = req;
-    const parsedNumber = parseInt(articleId, 10);
-    const isInteger = Number.isInteger(parsedNumber);
-    const isGreaterThanZero = parsedNumber > 0;
-
-    if (isInteger && isGreaterThanZero) return next();
-    return res.jsend.error('ID must be an integer greater than zero');
-  },
-
-  checkGifIdParams: (req, res, next) => {
-    const { params: { gifId } } = req;
-    const parsedNumber = parseInt(gifId, 10);
-    const isInteger = Number.isInteger(parsedNumber);
-    const isGreaterThanZero = parsedNumber > 0;
-
-    if (isInteger && isGreaterThanZero) return next();
-    return res.jsend.error('ID must be an integer greater than zero');
-  },
-  
-  checkCommentIdParams: (req, res, next) => {
-    const { params: { commentId } } = req;
-    const parsedNumber = parseInt(commentId, 10);
+  checkProductIdParams: (req, res, next) => {
+    const { params: { productId } } = req;
+    const parsedNumber = parseInt(productId, 10);
     const isInteger = Number.isInteger(parsedNumber);
     const isGreaterThanZero = parsedNumber > 0;
 
