@@ -47,3 +47,4 @@ CREATE TABLE gif_comment
 
 DELETE FROM employee WHERE id = 9;
 SELECT * FROM employee;
+SELECT * FROM articles;
